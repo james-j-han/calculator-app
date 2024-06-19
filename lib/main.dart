@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -6,7 +7,6 @@ void main() {
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       useMaterial3: true,
-      primaryColor: Colors.orange,
     ),
   ));
 }
@@ -30,25 +30,30 @@ class _DisplayState extends State<Display> {
       body: SafeArea(
         child: Column(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: const SizedBox(
-                      height: 160.0,
-                      child: Card(
-                        color: Color.fromARGB(255, 157, 163, 164),
-                        child: Text('Error', style: myDisplayTextStyle),
-                      ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                      // height: 140.0,
+                      // padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      margin: const EdgeInsets.all(10.0),
+                      color: const Color.fromARGB(255, 157, 163, 164),
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+                        child: const Align(
+                          alignment: Alignment.bottomRight,
+                          child: Text('Error', style: myDisplayTextStyle)
+                        )
+                      )
                     )
                   )
-                )
-              ],
+                ],
+              ),
             ),
 
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -56,14 +61,6 @@ class _DisplayState extends State<Display> {
                     onPressed: () {},
                     style: myBigButtonStyle,
                     child: const Text('C', style: myButtonTextStyle,)),
-                  // ElevatedButton(
-                  //     onPressed: () {},
-                  //     style: myButtonStyle,
-                  //     child: ColorFiltered(
-                  //       colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
-                  //       child: Image.asset('lib/icons/delete.png', width: 40.0, height: 40.0),
-                  //     )
-                  //   ),
                   SizedBox(
                     width: 80.0,
                     height: 80.0,
@@ -93,7 +90,7 @@ class _DisplayState extends State<Display> {
             ),
 
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -126,7 +123,7 @@ class _DisplayState extends State<Display> {
             ),
         
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -159,7 +156,7 @@ class _DisplayState extends State<Display> {
             ),
 
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -192,7 +189,7 @@ class _DisplayState extends State<Display> {
             ),
 
             Container(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -231,6 +228,9 @@ final myButtonStyle = ElevatedButton.styleFrom(
   elevation: 0,
   backgroundColor: const Color.fromARGB(255, 96, 77, 83),
   foregroundColor: const Color.fromARGB(255, 157, 163, 164),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8.0)
+  ),
 );
 
 final myBigButtonStyle = ElevatedButton.styleFrom(
@@ -238,6 +238,9 @@ final myBigButtonStyle = ElevatedButton.styleFrom(
   elevation: 0,
   backgroundColor: const Color.fromARGB(255, 96, 77, 83),
   foregroundColor: const Color.fromARGB(255, 157, 163, 164),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8.0)
+  ),
 );
 
 const myButtonTextStyle = TextStyle(
@@ -247,6 +250,7 @@ const myButtonTextStyle = TextStyle(
 );
 
 const myDisplayTextStyle = TextStyle(
-  fontSize: 70.0,
+  fontSize: 50.0,
   fontWeight: FontWeight.bold,
+  color: Color.fromARGB(255, 96, 77, 83),
 );
