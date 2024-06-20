@@ -52,7 +52,11 @@ class _DisplayState extends State<Display> {
 
   void onNumberPressed(String number) {
     setState(() {
-      currentNumber += number;
+      if (currentNumber.toLowerCase() == 'nan') {
+        currentNumber = number;
+      } else {
+        currentNumber += number;
+      }
     });
   }
 
