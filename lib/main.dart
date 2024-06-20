@@ -126,43 +126,29 @@ class _DisplayState extends State<Display> {
               child: Card(
                 margin: const EdgeInsets.all(10.0),
                 color: const Color.fromARGB(255, 157, 163, 164),
-                child: ListView.builder(
-                  controller: scrollController,
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    return buildListItem(item, index);
-                  })
-              )
-              // child: ListView.builder(
-              //   controller: scrollController,
-              //   // reverse: true,
-              //   itemCount: items.length,
-              //   itemBuilder: (context, index) {
-              //     final item = items[index];
-              //     return buildListItem(item, index);
-              //   },
-              // )
-            ),
-
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Card(
-                      margin: const EdgeInsets.all(10.0),
-                      color: const Color.fromARGB(255, 157, 163, 164),
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-                        child: Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(currentNumber, style: myDisplayTextStyle,)
-                        )
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                        controller: scrollController,
+                        itemCount: items.length,
+                        itemBuilder: (context, index) {
+                          final item = items[index];
+                          return buildListItem(item, index);
+                        }
                       )
-                    )
-                  )
-                ],
-              ),
+                    ),
+                    
+                    Container(
+                      margin: const EdgeInsets.all(10.0),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(currentNumber, style: myDisplayTextStyle)
+                      )
+                    ),
+                  ],
+                )
+              )
             ),
 
             Container(
