@@ -66,9 +66,13 @@ class _DisplayState extends State<Display> {
 
   void onOperationPressed(String operation) {
     setState(() {
-      previousNumber = currentNumber;
-      currentOperation = operation;
-      currentNumber = "";
+      if (currentOperation.isNotEmpty) {
+        currentOperation = operation;
+      } else {
+        previousNumber = currentNumber;
+        currentOperation = operation;
+        currentNumber = "";
+      }
     });
   }
 
@@ -128,7 +132,7 @@ class _DisplayState extends State<Display> {
           children: [
             Expanded(
               child: Card(
-                margin: const EdgeInsets.all(10.0),
+                margin: const EdgeInsets.all(14.0),
                 color: const Color.fromARGB(255, 157, 163, 164),
                 child: Column(
                   children: [
@@ -144,10 +148,11 @@ class _DisplayState extends State<Display> {
                     ),
                     
                     Container(
-                      margin: const EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      height: 70.0,
                       child: Align(
                         alignment: Alignment.centerRight,
-                        child: Text(currentNumber, style: myDisplayTextStyle)
+                        child: Text(currentNumber, style: myDisplayTextStyle),
                       )
                     ),
                   ],
@@ -156,7 +161,7 @@ class _DisplayState extends State<Display> {
             ),
 
             Container(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -181,9 +186,12 @@ class _DisplayState extends State<Display> {
                     height: 80.0,
                     child: ElevatedButton(
                       onPressed: () => onOperationPressed('/'),
-                      style: myButtonStyle,
+                      style: currentOperation == '/' ? myActiveButtonStyle : myButtonStyle,
                       child: ColorFiltered(
-                        colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(
+                          currentOperation == '/' ? const Color.fromARGB(255, 96, 77, 83): const Color.fromARGB(255, 157, 163, 164),
+                          BlendMode.srcIn,
+                        ),
                         child: Image.asset('lib/icons/division.png')
                       )
                     )
@@ -193,7 +201,7 @@ class _DisplayState extends State<Display> {
             ),
 
             Container(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -214,9 +222,12 @@ class _DisplayState extends State<Display> {
                     height: 80.0,
                     child: ElevatedButton(
                       onPressed: () => onOperationPressed('*'),
-                      style: myButtonStyle,
+                      style: currentOperation == '*' ? myActiveButtonStyle : myButtonStyle,
                       child: ColorFiltered(
-                        colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(
+                          currentOperation == '*' ? const Color.fromARGB(255, 96, 77, 83): const Color.fromARGB(255, 157, 163, 164),
+                          BlendMode.srcIn,
+                        ),
                         child: Image.asset('lib/icons/multiplication.png')
                       )
                     )
@@ -226,7 +237,7 @@ class _DisplayState extends State<Display> {
             ),
         
             Container(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -247,9 +258,12 @@ class _DisplayState extends State<Display> {
                     height: 80.0,
                     child: ElevatedButton(
                       onPressed: () => onOperationPressed('+'),
-                      style: myButtonStyle,
+                      style: currentOperation == '+' ? myActiveButtonStyle : myButtonStyle,
                       child: ColorFiltered(
-                        colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(
+                          currentOperation == '+' ? const Color.fromARGB(255, 96, 77, 83): const Color.fromARGB(255, 157, 163, 164),
+                          BlendMode.srcIn,
+                        ),
                         child: Image.asset('lib/icons/addition.png')
                       )
                     )
@@ -259,7 +273,7 @@ class _DisplayState extends State<Display> {
             ),
 
             Container(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -280,9 +294,12 @@ class _DisplayState extends State<Display> {
                     height: 80.0,
                     child: ElevatedButton(
                       onPressed: () => onOperationPressed('-'),
-                      style: myButtonStyle,
+                      style: currentOperation == '-' ? myActiveButtonStyle : myButtonStyle,
                       child: ColorFiltered(
-                        colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
+                        colorFilter: ColorFilter.mode(
+                          currentOperation == '-' ? const Color.fromARGB(255, 96, 77, 83): const Color.fromARGB(255, 157, 163, 164),
+                          BlendMode.srcIn,
+                        ),
                         child: Image.asset('lib/icons/subtraction.png')
                       )
                     )
@@ -292,7 +309,7 @@ class _DisplayState extends State<Display> {
             ),
 
             Container(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+              padding: const EdgeInsets.fromLTRB(0, 10, 0, 14),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -329,7 +346,7 @@ class _DisplayState extends State<Display> {
     return Container(
       margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       child: Align(
-        alignment: Alignment.bottomRight,
+        alignment: Alignment.centerRight,
         child: Text(item.text, style: myHistoryTextStyle,)
       )
     );
@@ -352,6 +369,16 @@ final myButtonStyle = ElevatedButton.styleFrom(
   ),
 );
 
+final myActiveButtonStyle = ElevatedButton.styleFrom(
+  minimumSize: const Size(80.0, 80.0),
+  elevation: 0,
+  backgroundColor: const Color.fromARGB(255, 219, 127, 142),
+  foregroundColor: const Color.fromARGB(255, 96, 77, 83),
+  shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(8.0)
+  ),
+);
+
 final myBigButtonStyle = ElevatedButton.styleFrom(
   minimumSize: const Size(174.0, 80.0),
   elevation: 0,
@@ -365,7 +392,6 @@ final myBigButtonStyle = ElevatedButton.styleFrom(
 const myButtonTextStyle = TextStyle(
   fontSize: 40.0,
   fontWeight: FontWeight.w900,
-  // color: Colors.orange,
 );
 
 const myDisplayTextStyle = TextStyle(
