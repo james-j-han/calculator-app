@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -20,8 +19,83 @@ class Display extends StatefulWidget {
 
 class _DisplayState extends State<Display> {
 
-  double minButtonWidth = 80;
-  double minButtonHeight = 80;
+  String currentNumber = "";
+  String previousNumber = "";
+  String currentOperation = "";
+
+  void onClearPressed() {
+    setState(() {
+      currentNumber = "";
+      previousNumber = "";
+      currentOperation = "";
+    });
+  }
+
+  void onNumberPressed(String number) {
+    setState(() {
+      currentNumber += number;
+    });
+  }
+
+  void onDecimalPressed() {
+    setState(() {
+      if (!currentNumber.contains('.')) {
+        currentNumber += '.';
+      }
+    });
+  }
+
+  void onOperationPressed(String operation) {
+    setState(() {
+      previousNumber = currentNumber;
+      currentOperation = operation;
+      currentNumber = "";
+    });
+  }
+
+  void onBackPressed() {
+    setState(() {
+      currentNumber = currentNumber.substring(0, currentNumber.length - 1);
+      print(currentNumber);
+    });
+  }
+
+  void onEqualsPressed() {
+    if (currentOperation.isNotEmpty && previousNumber.isNotEmpty) {
+      double num1 = double.parse(previousNumber);
+      double num2 = double.parse(currentNumber);
+      double result;
+
+      switch (currentOperation) {
+        case '+':
+          result = num1 + num2;
+          break;
+        case '-':
+          result = num1 - num2;
+          break;
+        case "*":
+          result = num1 * num2;
+          break;
+        case '/':
+          if (num2 == 0) {
+            result = double.nan;
+            onClearPressed();
+          } else {
+            result = num1 / num2;
+          }
+          break;
+        default:
+          result = 0.0;
+      }
+
+      setState(() {
+        currentNumber = result.toString();
+        print(currentNumber);
+        previousNumber = "";
+        currentOperation = "";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +115,9 @@ class _DisplayState extends State<Display> {
                       color: const Color.fromARGB(255, 157, 163, 164),
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
-                        child: const Align(
+                        child: Align(
                           alignment: Alignment.bottomRight,
-                          child: Text('Error', style: myDisplayTextStyle)
+                          child: Text(currentNumber, style: myDisplayTextStyle)
                         )
                       )
                     )
@@ -58,14 +132,14 @@ class _DisplayState extends State<Display> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onClearPressed(),
                     style: myBigButtonStyle,
                     child: const Text('C', style: myButtonTextStyle,)),
                   SizedBox(
                     width: 80.0,
                     height: 80.0,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => onBackPressed(),
                       style: myButtonStyle,
                       child: ColorFiltered(
                         colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
@@ -77,7 +151,7 @@ class _DisplayState extends State<Display> {
                     width: 80.0,
                     height: 80.0,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => onOperationPressed('/'),
                       style: myButtonStyle,
                       child: ColorFiltered(
                         colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
@@ -95,22 +169,22 @@ class _DisplayState extends State<Display> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('7'),
                     style: myButtonStyle,
                     child: const Text('7', style: myButtonTextStyle,),),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('8'),
                     style: myButtonStyle,
                     child: const Text('8', style: myButtonTextStyle,)),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('9'),
                     style: myButtonStyle,
                     child: const Text('9', style: myButtonTextStyle,)),
                   SizedBox(
                     width: 80.0,
                     height: 80.0,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => onOperationPressed('*'),
                       style: myButtonStyle,
                       child: ColorFiltered(
                         colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
@@ -128,22 +202,22 @@ class _DisplayState extends State<Display> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('4'),
                     style: myButtonStyle,
                     child: const Text('4', style: myButtonTextStyle,),),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('5'),
                     style: myButtonStyle,
                     child: const Text('5', style: myButtonTextStyle,)),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('6'),
                     style: myButtonStyle,
                     child: const Text('6', style: myButtonTextStyle,)),
                   SizedBox(
                     width: 80.0,
                     height: 80.0,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => onOperationPressed('+'),
                       style: myButtonStyle,
                       child: ColorFiltered(
                         colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
@@ -161,22 +235,22 @@ class _DisplayState extends State<Display> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('1'),
                     style: myButtonStyle,
                     child: const Text('1', style: myButtonTextStyle,),),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('2'),
                     style: myButtonStyle,
                     child: const Text('2', style: myButtonTextStyle,)),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('3'),
                     style: myButtonStyle,
                     child: const Text('3', style: myButtonTextStyle,)),
                   SizedBox(
                     width: 80.0,
                     height: 80.0,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => onOperationPressed('-'),
                       style: myButtonStyle,
                       child: ColorFiltered(
                         colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
@@ -194,18 +268,18 @@ class _DisplayState extends State<Display> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onNumberPressed('0'),
                     style: myBigButtonStyle,
                     child: const Text('0', style: myButtonTextStyle,),),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => onDecimalPressed(),
                     style: myButtonStyle,
                     child: const Text('.', style: myButtonTextStyle,)),
                   SizedBox(
                     width: 80.0,
                     height: 80.0,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => onEqualsPressed(),
                       style: myButtonStyle,
                       child: ColorFiltered(
                         colorFilter: const ColorFilter.mode(Color.fromARGB(255, 157, 163, 164), BlendMode.srcIn),
