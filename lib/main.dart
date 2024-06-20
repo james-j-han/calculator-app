@@ -58,8 +58,12 @@ class _DisplayState extends State<Display> {
 
   void onDecimalPressed() {
     setState(() {
-      if (!currentNumber.contains('.')) {
-        currentNumber += '.';
+      if (currentNumber.toLowerCase() == 'nan') {
+        currentNumber = "";
+      } else {
+        if (!currentNumber.contains('.')) {
+          currentNumber += '.';
+        }
       }
     });
   }
