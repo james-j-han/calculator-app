@@ -40,9 +40,13 @@ class _DisplayState extends State<Display> {
 
   void onClearPressed() {
     setState(() {
-      currentNumber = "";
-      previousNumber = "";
-      currentOperation = "";
+      if (currentNumber.isEmpty && previousNumber.isEmpty && currentOperation.isEmpty) {
+        items.clear();
+      } else {
+        currentNumber = "";
+        previousNumber = "";
+        currentOperation = "";
+      }
     });
   }
 
