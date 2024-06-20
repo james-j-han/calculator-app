@@ -78,7 +78,11 @@ class _DisplayState extends State<Display> {
 
   void onBackPressed() {
     setState(() {
-      currentNumber = currentNumber.substring(0, currentNumber.length - 1);
+      if (currentNumber.toLowerCase() == 'nan') {
+        currentNumber = "";
+      } else {
+        currentNumber = currentNumber.substring(0, currentNumber.length - 1);
+      }
     });
   }
 
