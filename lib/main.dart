@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -19,9 +20,23 @@ class Display extends StatefulWidget {
 
 class _DisplayState extends State<Display> {
 
+  List<Item> items = [];
+
+  final scrollController = ScrollController();
+
   String currentNumber = "";
   String previousNumber = "";
   String currentOperation = "";
+
+  void scrollToBottom() {
+    // delay between data updating and listview rebuilding
+    // therefore following method ensures scroll is delayed a frame
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (scrollController.hasClients) {
+        scrollController.jumpTo(scrollController.position.maxScrollExtent);
+      }
+    });
+  }
 
   void onClearPressed() {
     setState(() {
@@ -56,7 +71,6 @@ class _DisplayState extends State<Display> {
   void onBackPressed() {
     setState(() {
       currentNumber = currentNumber.substring(0, currentNumber.length - 1);
-      print(currentNumber);
     });
   }
 
@@ -79,7 +93,6 @@ class _DisplayState extends State<Display> {
         case '/':
           if (num2 == 0) {
             result = double.nan;
-            onClearPressed();
           } else {
             result = num1 / num2;
           }
@@ -90,11 +103,16 @@ class _DisplayState extends State<Display> {
 
       setState(() {
         currentNumber = result.toString();
-        print(currentNumber);
         previousNumber = "";
         currentOperation = "";
+        items.add(Item(currentNumber));
+        scrollToBottom();
       });
     }
+  }
+
+  bool isValid(String number) {
+    return number != "NaN" ? true : false;
   }
 
   @override
@@ -105,11 +123,32 @@ class _DisplayState extends State<Display> {
         child: Column(
           children: [
             Expanded(
+              child: Card(
+                margin: const EdgeInsets.all(10.0),
+                color: const Color.fromARGB(255, 157, 163, 164),
+                child: ListView.builder(
+                  controller: scrollController,
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                    final item = items[index];
+                    return buildListItem(item, index);
+                  })
+              )
+              // child: ListView.builder(
+              //   controller: scrollController,
+              //   // reverse: true,
+              //   itemCount: items.length,
+              //   itemBuilder: (context, index) {
+              //     final item = items[index];
+              //     return buildListItem(item, index);
+              //   },
+              // )
+            ),
+
+            Expanded(
               child: Row(
                 children: [
                   Expanded(
-                      // height: 140.0,
-                      // padding: const EdgeInsets.all(8.0),
                     child: Card(
                       margin: const EdgeInsets.all(10.0),
                       color: const Color.fromARGB(255, 157, 163, 164),
@@ -117,7 +156,7 @@ class _DisplayState extends State<Display> {
                         margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
                         child: Align(
                           alignment: Alignment.bottomRight,
-                          child: Text(currentNumber, style: myDisplayTextStyle)
+                          child: Text(currentNumber, style: myDisplayTextStyle,)
                         )
                       )
                     )
@@ -295,6 +334,22 @@ class _DisplayState extends State<Display> {
       )
     );
   }
+
+  Widget buildListItem(Item item, int index) {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
+      child: Align(
+        alignment: Alignment.bottomRight,
+        child: Text(item.text, style: myDisplayTextStyle,)
+      )
+    );
+  }
+}
+
+class Item {
+  String text = "";
+
+  Item(this.text);
 }
 
 final myButtonStyle = ElevatedButton.styleFrom(
