@@ -70,12 +70,16 @@ class _DisplayState extends State<Display> {
 
   void onOperationPressed(String operation) {
     setState(() {
-      if (currentOperation.isNotEmpty) {
-        currentOperation = operation;
-      } else {
-        previousNumber = currentNumber;
-        currentOperation = operation;
+      if (currentNumber.toLowerCase() == 'nan') {
         currentNumber = "";
+      } else {
+        if (currentOperation.isNotEmpty) {
+          currentOperation = operation;
+        } else {
+          previousNumber = currentNumber;
+          currentOperation = operation;
+          currentNumber = "";
+        }
       }
     });
   }
