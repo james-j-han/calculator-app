@@ -135,10 +135,6 @@ class _DisplayState extends State<Display> {
     }
   }
 
-  bool isValid(String number) {
-    return number != "NaN" ? true : false;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
