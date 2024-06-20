@@ -326,7 +326,7 @@ class _DisplayState extends State<Display> {
       margin: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
       child: Align(
         alignment: Alignment.bottomRight,
-        child: Text(item.text, style: myDisplayTextStyle,)
+        child: Text(item.text, style: myHistoryTextStyle,)
       )
     );
   }
@@ -366,6 +366,12 @@ const myButtonTextStyle = TextStyle(
 
 const myDisplayTextStyle = TextStyle(
   fontSize: 50.0,
+  fontWeight: FontWeight.bold,
+  color: Color.fromARGB(255, 96, 77, 83),
+);
+
+const myHistoryTextStyle = TextStyle(
+  fontSize: 24.0,
   fontWeight: FontWeight.bold,
   color: Color.fromARGB(255, 96, 77, 83),
 );
